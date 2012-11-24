@@ -106,7 +106,7 @@ module.exports = function (bucket) {
   }
 
   toKey.within = function (range, key) {
-    return range.start < key && key < range.end
+    return range.start <= key && key <= range.end
   }
 
   return toKey
