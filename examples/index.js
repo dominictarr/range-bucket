@@ -1,10 +1,5 @@
-# range-bucket
 
-Generate string ranges that group into ranges,
-suitable for use as database keys (recommended for [levelup](https://github.com/rvagg/node-levelup'))
-
-``` js
-var bucket = require('range-bucket')
+var bucket = require('..')
 //will create buckets that are prefixed with BUCKET.
 var b = bucket('BUCKET')
 var b2 = bucket('BUCKET2')
@@ -16,8 +11,11 @@ keys.push(b('goodbye'))
 
 keys.push(b2('bonjour'))
 
-//get the range defined by a bucket like this:
-b.range()
+
+//use b.range() to get an object which defines the range of that bucket.
+console.log(
+  b.range()
+)
 
 //fiter a range like this:
 
@@ -31,9 +29,3 @@ console.log(
  keys.filter(b.range('', 'h').within)
 )
 
-```
-
-
-## License
-
-MIT
