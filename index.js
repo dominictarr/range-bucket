@@ -93,12 +93,16 @@ module.exports = function (bucket) {
     valid('start', start)
     valid('end'  , end)
 
-    return {
-      start: start ? toKey(start) : toKey(), 
+    var r = {
+      start: start ? toKey(start) : toKey()+'~', 
       end:   end   ? toKey(end)   : (
         Array.isArray(start) ? toKey(start)+'~' :toKey()+'~~'
-      )
+      ),
+      within: function (k) {
+        return r.start <= k && k < r.end
+      }
     }
+    return r
   }
 
   toKey.within = function (range, key) {
