@@ -22,12 +22,14 @@ function times (n, iter) {
   while(n-- > 0) iter(n)
 }
 
-times(1000, function () {
+times(100, function () {
   var b  = bucket(random(6))
   var _b = bucket(random(6))
   var K  = random(6)
   var k  = b (K)
   var _k = _b(K)
+
+  console.log(b.parse(k))
 
   assert( b.range().within(k))
   //keys for a different bucket *must* fall outside the range.
@@ -35,7 +37,7 @@ times(1000, function () {
   assert( _b.range().within(_k) )
 })
 
-times(1000, function () {
+times(100, function () {
   var b  = bucket(random(6))
   var _b = bucket(random(6))
   var K  = random(6)
@@ -50,13 +52,16 @@ times(1000, function () {
 })
 
 
-times(1000, function () {
+times(100, function () {
   var b  = bucket(random(6))
   var big = random(4), little = random(4), _little = random(4)
 
   assert(within(b.range([big, true]), b([big, little])))
   assert(within(b.range([big, little]), b([big, little])))
   assert(within(b.range([true, true]), b([big, little])))
+
+  console.log(b.parse(b([big, little])))
+
 
   assert(!within(b.range([big, little]), b([big, _little])))
   assert(within(b.range([big, true]), b([big, _little])))
@@ -67,8 +72,10 @@ times(10, function () {
   var b  = bucket(random(6), 'sub')
   var big = random(4), little = random(4), _little = random(4)
 
-  console.log(b.range([big, true]) )
-  console.log(b([big, little]))
+  //console.log(b.range([big, true]) )
+//  console.log(b([big, little]))
+
+  console.log(b.parse(b([big, little])))
 
   assert(b.range([big, true]).within(b([big, little])))
   assert(b.range([big, little]).within(b([big, little])))
