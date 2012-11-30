@@ -40,7 +40,7 @@ function valid (name, key) {
 }
 
 function join() {
-  return '~' + [].join.call(arguments, '~')
+  return '\xFF' + [].join.call(arguments, '~')
 }
 
 module.exports = function (bucket) {
@@ -67,9 +67,10 @@ module.exports = function (bucket) {
     var l = key.length
     for(var i=0; i < l && true !== key[i]; i++)
       ary.push(key[i])
-    
-    var r = JSON.stringify(ary)
-    return order[l] + ',' + r.substring(1, r.length - 1)
+
+    var r = ary.slice()
+    r.unshift(order[l])
+    return r.join('\0')
   }
 
   function toKey (key) {
@@ -121,7 +122,7 @@ module.exports = function (bucket) {
   function degroup(key) {
     var a = order.indexOf(key[0])
     try {
-      var l = JSON.parse('['+key.substring(2)+']')
+      var l = key.substring(2).split('\0')
       if(l.length == a)
         return l
     } catch (err) {
