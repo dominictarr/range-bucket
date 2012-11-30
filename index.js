@@ -99,14 +99,42 @@ module.exports = function (bucket) {
         Array.isArray(start) ? toKey(start)+'~' :toKey()+'~~'
       ),
       within: function (k) {
-        return r.start <= k && k < r.end
+        return toKey.within(r, k)
       }
     }
     return r
   }
 
   toKey.within = function (range, key) {
-    return range.start <= key && key <= range.end
+    return (
+      (!range.start || range.start <= key) 
+    && (!range.end || key <= range.end)
+    )
+  }
+
+  toKey.unprefix = function (str) {
+    if(!toKey.range().within(str))
+      throw new Error(str + ' is not a member of ' + bucket)
+    return str.split('~').pop()
+  }
+
+  function degroup(key) {
+    var a = order.indexOf(key[0])
+    try {
+      var l = JSON.parse('['+key.substring(2)+']')
+      if(l.length == a)
+        return l
+    } catch (err) {
+      return null
+    }
+  }
+
+  toKey.parse = function (str) {
+    var a = str.substring(1).split('~')
+    var g = a.pop()
+    g = degroup(g) || g
+      
+    return {key: g, prefix: a}
   }
 
   return toKey
