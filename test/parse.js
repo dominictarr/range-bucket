@@ -15,5 +15,11 @@ require('tape')('parse', function (t) {
     key: ['hello', 'whatever']
   })
 
+
+  t.deepEqual(b.parse(b([])), {
+    prefix: ['bucket'],
+    key: []
+  })
+
 })
 
