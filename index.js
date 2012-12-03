@@ -125,11 +125,8 @@ module.exports = function (bucket) {
       return []
     var a = order.indexOf(key[0])
     try {
-      console.log(JSON.stringify(key))
       var l = key.substring(2).split('\0')
-      console.log(l, a)
-      if(l.length == a)
-        return l
+      if(l.length == a) return l
     } catch (err) {
       return null
     }
