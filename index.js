@@ -56,12 +56,13 @@ module.exports = function (bucket) {
     if(!Array.isArray(key))
       return key
     if(key.length > order.length)
-      throw new Error(
+      throw new Error (
           'group key too deep:' 
         + JSON.stringify(key) 
         + ' max depth is:' 
         + order.length
       )
+
     var ary = []
     key.forEach(valid.bind(null, 'group-key'))
     var l = key.length
@@ -120,9 +121,13 @@ module.exports = function (bucket) {
   }
 
   function degroup(key) {
+    if(key === '0')
+      return []
     var a = order.indexOf(key[0])
     try {
+      console.log(JSON.stringify(key))
       var l = key.substring(2).split('\0')
+      console.log(l, a)
       if(l.length == a)
         return l
     } catch (err) {
