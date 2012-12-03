@@ -131,7 +131,7 @@ module.exports = function (bucket) {
   }
 
   toKey.parse = function (str) {
-    var a = str.substring(1).split('~')
+    var a = str.toString().substring(1).split('~')
     var g = a.pop()
     g = degroup(g) || g
       
